@@ -13,14 +13,37 @@ export class taskList{
         this.container=panel;
     }
 
+
+    
     drawTile(_task:task)
     {
-            let tiles=document.createElement("div");
-            tiles.classList.add("tile");
-            this.container.appendChild(tiles);
+        let sameDay:boolean=false;
+        //if two or more tasks are at the same day, draw inside one tile for that day
+        if(this.tasks.length!==0)
+        {
+            for(let i=0; i<this.tasks.length; ++i)
+            {
+                if(this.tasks[i].date===_task.date)
+                {
+                    this.tasks.push(_task);
+                    _task.drawTask(this.tasks[i].containter);
+                    sameDay=true;
+                    break;
+                }
+            
+            }
+        }
+            if(sameDay==false)
+            {
+                let tiles=document.createElement("div");
+                tiles.classList.add("tile");
+                this.container.appendChild(tiles);
 
-            this.tasks.push(_task);
-            this.tasks[this.tasks.length-1].drawTask(tiles);
+                this.tasks.push(_task);
+                _task.drawTask(tiles);
+            }
+        
+            
     }
 
     drawAllTasks()
